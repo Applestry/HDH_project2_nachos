@@ -224,12 +224,12 @@ ExceptionHandler(ExceptionType which)
             gSynchConsole->Write(buffer, length + 1); //Goi ham Write cua SynchConsole de in chuoi
             delete buffer;
             break;
-        case SC_Create:
+        case SC_CreateFile:
         {
             int virtAddr;
             char* filename;
 
-            DEBUG('a', "\n SC_Create call ...");
+            DEBUG('a', "\n SC_CreateFile call ...");
             DEBUG('a', "\n Reading virtual address of filename");
             //Lay tham so ten tap tin tu thanh ghi r4
             virtAddr = machine->ReadRegister(4);
@@ -251,7 +251,7 @@ ExceptionHandler(ExceptionType which)
             //viec tao file nay la su dung cac thu tuc tao file cua he dieu hanh Linux
             //chung ta khong quan ly truc tiep ca block tren dia cung cap phat cho file
             //viec quan ly cac block cua file tren o dia la mot do an khac
-            if (!fileSystem->Create(filename, 0))
+            if (!fileSystem->CreateFile(filename, 0))
             {
                 printf("\n Error create file '%s'", filename);
                 machine->WriteRegister(2, -1);
