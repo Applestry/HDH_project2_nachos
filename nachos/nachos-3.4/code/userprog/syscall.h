@@ -22,13 +22,18 @@
 #define SC_Exit		1
 #define SC_Exec		2
 #define SC_Join		3
-#define SC_CreateFile	4
+#define SC_CreateFile	4  // thay Create thanh CreateFile
 #define SC_Open		5
 #define SC_Read		6
 #define SC_Write	7
 #define SC_Close	8
 #define SC_Fork		9
 #define SC_Yield	10
+// Phan add them
+#define SC_PrintInt	11
+#define SC_ReadString	12
+
+
 
 #ifndef IN_ASM
 

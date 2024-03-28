@@ -129,6 +129,23 @@ Yield:
 	syscall
 	j	$31
 	.end Yield
+	
+	.globl PrintInt
+	.ent	PrintInt
+PrintInt:
+	addiu $2,$0,SC_PrintInt
+	syscall
+	j	$31
+	.end PrintInt
+
+	.globl ReadString
+	.ent	ReadString
+ReadString:
+	addiu $2,$0,SC_ReadString
+	syscall
+	j	$31
+	.end ReadString
+
 
 /* dummy function to keep gcc happy */
         .globl  __main

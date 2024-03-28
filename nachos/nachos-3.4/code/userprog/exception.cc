@@ -251,7 +251,7 @@ ExceptionHandler(ExceptionType which)
             //viec tao file nay la su dung cac thu tuc tao file cua he dieu hanh Linux
             //chung ta khong quan ly truc tiep ca block tren dia cung cap phat cho file
             //viec quan ly cac block cua file tren o dia la mot do an khac
-            if (!fileSystem->CreateFile(filename, 0))
+            if (!fileSystem->Create(filename, 0))
             {
                 printf("\n Error create file '%s'", filename);
                 machine->WriteRegister(2, -1);
@@ -262,6 +262,83 @@ ExceptionHandler(ExceptionType which)
             delete filename;
             break;
         }
+        case SC_PrintInt:
+        {
+            // void PrintInt(int Number)
+            int number = machine->ReadRegister(4); // cho doi so vao thanh ghi 4
+            if (number == 0)
+            {
+                gSynchConsole->Write("0", 1); // In ra man hinh so 0
+                //IncreasePC();
+                return;
+            }
+            // phai chuyen so thanh chuoi moi có the in ra man hinh duoc
+            bool isNegative = false; // check am/duong
+            int numberOfNum = 0; //so chu so cua number
+            int firstNumIndex = 0; // neu la so am thi gtri nay bang 1 - de in dau "-", con nguoc lai thi bang 0
+
+            if (number < 0)
+            {
+                isNegative = true;
+                number = number * -1; //chuyen so am thanh so duong de tinh so chu so
+                firstNumIndex = 1;
+            }
+
+            int t_number = number; // su dung tren bien tam de number khong bi thay doi -> tinh so chu so
+            while (t_number)
+            {
+                numberOfNum++;
+                t_number /= 10;
+            }
+
+            // Tao buffer chuoi de in ra man hinh
+            char* buffer;
+            int MAX_BUFFER = 255;
+            buffer = new char[MAX_BUFFER + 1];
+            for (int i = firstNumIndex + numberOfNum - 1; i >= firstNumIndex; i--)
+            {
+                buffer[i] = (char)((number % 10) + 48);
+                number /= 10;
+            }
+            if (isNegative)
+            {
+                buffer[0] = '-';
+                buffer[numberOfNum + 1] = 0;
+                gSynchConsole->Write(buffer, numberOfNum + 1);
+                delete buffer;
+                //IncreasePC();
+                return;
+            }
+            buffer[numberOfNum] = 0;
+            gSynchConsole->Write(buffer, numberOfNum);
+            delete buffer;
+            //IncreasePC();
+            break;
+        }
+        case SC_ReadString:
+        {
+            //void ReadString (char[] buffer, int length)
+            int virtAddr, length, cnt = 0; // cnt la gia tri chieu dai that su
+            char* buffer;
+            virtAddr = machine->ReadRegister(4); // Lay dia chi tham so buffer truyen vao tu thanh ghi so 4
+            length = machine->ReadRegister(5); // Lay do dai toi da cua chuoi nhap vao tu thanh ghi so 5
+            buffer = User2System(virtAddr, length); // Copy chuoi tu vung nho User Space sang System Space
+            for (int i = 0; i < length; i++) // chi doc chieu dai < length theo yeu cau de
+            {
+                gSynchConsole->Read(buffer[i], 1); // moi lan doc 1 byte de check xem nguoi dung co nhan enter hay khong
+                cnt++; // moi lan doc xong la se tang chieu dai that su vi co the trong chuoi co enter
+                if (buffer[i] == 13) // 13 la dau enter
+                {
+                    buffer[i] = '\0'; // gap enter la ket thuc
+                    break;
+                }
+            }
+            System2User(virtAddr, cnt, buffer); // Copy chuoi tu vung nho System Space sang vung nho User Space
+            delete buffer;
+            //ncreasePC(); //Program Counter 
+            break;
+        }
+
         default:
             printf("\n Unexpected user mode exception (%d %d)", which, type);
             interrupt->Halt();
