@@ -158,12 +158,13 @@ ExceptionHandler(ExceptionType which)
             buffer = new char[max_buffer + 1];
             int numBytes = gSynchConsole->Read(buffer, max_buffer);
             float value = 0.0;
-            int firstIndex = 0, lastIndex = 0;
+            int firstIndex = 0;
+	    int lastIndex = 0;
             int decimalIndex = -1;
             bool isNegative = false;
             if (buffer[0] == '-')
             {
-                isNegative  true;
+                isNegative = true;
                 firstIndex = 1;
                 lastIndex = 1;
             }
