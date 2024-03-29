@@ -66,12 +66,6 @@ matmult: matmult.o start.o
 	$(LD) $(LDFLAGS) start.o matmult.o -o matmult.coff
 	../bin/coff2noff matmult.coff matmult
 
-PrintFloat.o: PrintFloat.c
-	$(CC) $(CFLAGS) -c PrintFloat.c
-PrintFloat: PrintFloat.o PrintFloat.o
-	$(LD) $(LDFLAGS) start.o PrintFloat.o -o PrintFloat.coff
-	../bin/coff2noff PrintFloat.coff PrintFloat
-
 ReadChar.o: ReadChar.c
 	$(CC) $(CFLAGS) -c ReadChar.c
 ReadChar: ReadChar.o ReadChar.o
