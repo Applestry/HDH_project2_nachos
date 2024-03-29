@@ -145,7 +145,24 @@ ReadString:
 	syscall
 	j	$31
 	.end ReadString
-	
+
+	.globl PrintString
+	.ent	PrintString
+PrintString:
+	addiu $2,$0,SC_PrintString
+	syscall
+	j	$31
+	.end PrintString
+
+	.globl ReadFloat
+	.ent	ReadFloat
+ReadFloat:
+	addiu $2,$0,SC_ReadFloat
+	syscall
+	j	$31
+	.end ReadFloat
+
+		
 	.globl PrintFloat
 	.ent	PrintFloat
 PrintFloat:
