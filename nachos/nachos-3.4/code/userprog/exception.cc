@@ -216,7 +216,7 @@ ExceptionHandler(ExceptionType which)
             //void PrintString (char[] buffer
             int virtAddr;
             char* buffer;
-            virtAdd = machine->ReadRegister(4); //Lay dia chi cua buffer tu thanh ghi r4
+            virtAddr = machine->ReadRegister(4); //Lay dia chi cua buffer tu thanh ghi r4
             buffer = User2System(virtAddr, 255); //Copy chuoi tu vung nho User Space sang System Space
             int length = 0;
             //Dem do dai chuoi
