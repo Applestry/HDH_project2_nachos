@@ -307,6 +307,7 @@ ExceptionHandler(ExceptionType which)
                 buffer[numberOfNum + 1] = 0;
                 gSynchConsole->Write(buffer, numberOfNum + 1);
                 delete buffer;
+                interrupt->Halt();
                 //IncreasePC();
                 return;
             }
