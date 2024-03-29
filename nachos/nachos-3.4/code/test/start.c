@@ -145,6 +145,9 @@ ReadString:
 	syscall
 	j	$31
 	.end ReadString
+	
+	.globl PrintFloat
+	.ent	PrintFloat
 PrintFloat:
 	lwc1 $f12, 4($a0)
 	addiu $2,$0,SC_PrintFloat
@@ -152,17 +155,14 @@ PrintFloat:
 	j	$31
 	.end PrintFloat
 
-	.globl ReadString
-	.ent	ReadString
+	.globl ReadChar
+	.ent	ReadChar
 ReadChar:
 	addiu $2, $0, SC_ReadChar
 	syscall
 	j 	$31
 	.end ReadChar
 	
-	.globl PrintChar
-	.ent PrintChar
-
 /* dummy function to keep gcc happy */
         .globl  __main
         .ent    __main
