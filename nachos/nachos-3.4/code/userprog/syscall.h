@@ -30,13 +30,14 @@
 #define SC_Fork		9
 #define SC_Yield	10
 // Phan add them
-#define SC_PrintInt	12
-#define SC_ReadString	16
+#define SC_PrintInt	11
+#define SC_ReadString	12
 
 #define SC_PrintFloat	14
 #define SC_ReadChar	15
 
-
+#define SC_ReadInt   11
+#define SC_PrintChar 16
 
 #ifndef IN_ASM
 
@@ -53,6 +54,9 @@
 /* New system call function */
 void PrintFloat(float number);
 char ReadChar();
+
+int ReadInt();
+void PrintChar(char character);
 
 /* Stop Nachos, and print out performance stats */
 void Halt();		
