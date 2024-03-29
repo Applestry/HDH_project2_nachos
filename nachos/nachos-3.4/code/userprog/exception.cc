@@ -92,6 +92,15 @@ int System2User(int virtAddr, int len, char* buffer)
     return i;
 }
 
+void IncrementPC(){
+	int valuePC;
+	valuePC = machine->ReadRegister(PCReg);
+	machine->WriteRegister(PrevPCReg, valuePC);
+	valuePC = machine->ReadRegister(NextPCReg);
+	machine->WriteRegister(PCReg, valuePC);
+	machine->WriteRegister(NextPCReg, valuePC + 4);
+}
+
 void
 ExceptionHandler(ExceptionType which)
 {
@@ -364,6 +373,44 @@ ExceptionHandler(ExceptionType which)
 		machine->WriteRegister(2,c);
 		break;
 	}
+	case SC_ReadInt:
+            char* buffer;
+            int MaxLength = 255;
+            int numbytes, number, i;
+            bool isNegative;
+            buffer = new char[MaxLength + 1];
+            numbytes = gSynchConsole->Read(buffer, MaxLength);
+            //printf("numbytes: %d\n", numbytes);
+            number = 0;
+            i = 0;
+            if (buffer[0] == '-'){
+                isNegative = true;
+                i++;
+            }
+            for (;i < numbytes;i++){
+                if (buffer[i] < '0' || buffer[i] > '9'){
+                    DEBUG('a', "Invalid integer number.\n");
+                    number = 0;
+                    break;
+                }
+                else{
+                    number = number * 10 + (int)(buffer[i] - '0');
+                }
+            }
+            if (isNegative){
+                number = -number;
+            }
+            //printf("result: %d\n", number);
+            machine->WriteRegister(2, number);
+            IncrementPC();
+            delete[] buffer;
+            return;
+        case SC_PrintChar:
+            char ch;
+            ch = machine->ReadRegister(4);
+            gSynchConsole->Write(&ch, 1);
+            IncrementPC();
+            return;
         default:
             printf("\n Unexpected user mode exception (%d %d)", which, type);
             interrupt->Halt();
