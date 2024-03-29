@@ -68,24 +68,43 @@ matmult: matmult.o start.o
 
 ReadFloat.o: ReadFloat.c
 	$(CC) $(CFLAGS) -c ReadFloat.c
-ReadFloat: ReadFloat.o ReadFloat.o
+ReadFloat: ReadFloat.o start.o
 	$(LD) $(LDFLAGS) start.o ReadFloat.o -o ReadFloat.coff
 	../bin/coff2noff ReadFloat.coff ReadFloat
 
 PrintFloat.o: PrintFloat.c
 	$(CC) $(CFLAGS) -c PrintFloat.c
-PrintFloat: PrintFloat.o PrintFloat.o
+PrintFloat: PrintFloat.o start.o
 	$(LD) $(LDFLAGS) start.o PrintFloat.o -o PrintFloat.coff
 	../bin/coff2noff PrintFloat.coff PrintFloat
 
 ReadChar.o: ReadChar.c
 	$(CC) $(CFLAGS) -c ReadChar.c
-ReadChar: ReadChar.o ReadChar.o
+ReadChar: ReadChar.o start.o
 	$(LD) $(LDFLAGS) start.o ReadChar.o -o ReadChar.coff
 	../bin/coff2noff ReadChar.coff ReadChar
 
 PrintString.o: PrintString.c
 	$(CC) $(CFLAGS) -c PrintString.c
-PrintString: PrintString.o PrintString.o
+PrintString: PrintString.o start.o
 	$(LD) $(LDFLAGS) start.o PrintString.o -o PrintString.coff
 	../bin/coff2noff PrintString.coff PrintString
+
+CreateFile.o: CreateFile.c
+	$(CC) $(CFLAGS) -c CreateFile.c
+CreateFile: CreateFile.o start.o
+	$(LD) $(LDFLAGS) start.o CreateFile.o -oCreateFile.coff
+	../bin/coff2noff CreateFile.coff CreateFile
+
+PrintInt.o: PrintInt.c
+	$(CC) $(CFLAGS) -c PrintInt.c
+PrintInt: PrintInt.o start.o
+	$(LD) $(LDFLAGS) start.o PrintInt.o -o PrintInt.coff
+	../bin/coff2noff PrintInt.coff PrintInt
+
+ReadString.o: ReadString.c
+	$(CC) $(CFLAGS) -c ReadString.c
+ReadString: ReadString.o start.o
+	$(LD) $(LDFLAGS) start.o ReadString.o -o ReadString.coff
+	../bin/coff2noff ReadString.coff ReadString
+
