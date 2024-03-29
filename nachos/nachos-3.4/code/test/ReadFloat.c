@@ -1,12 +1,12 @@
 #include "syscall.h"
 
 int main() {
-	int n;
+	float n;
 
-	PrintString("Nhap so nguyen: ");
-	n = ReadInt();
+	PrintString("Nhap so thuc: ");
+	n = ReadFloat();
 	PrintString("So vua nhap la: ");
-	PrintInt(n);
+	PrintFloat(n);
 	PrintChar('\n');
 	return 0;
 }
