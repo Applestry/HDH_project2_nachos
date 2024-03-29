@@ -126,7 +126,7 @@ ExceptionHandler(ExceptionType which)
         interrupt->Halt();
         break;
 
-    case OerflowException:
+    case OverflowException:
         DEBUG('a', "\nInteger overflow in add or sub.");
         printf("\n\n Integer overflow in add or sub.");
         interrupt->Halt();
