@@ -322,9 +322,10 @@ ExceptionHandler(ExceptionType which)
         case SC_ReadString:
         {
             //void ReadString (char[] buffer, int length)
-            int virtAddr, length, cnt = 0; // cnt la gia tri chieu dai that su
+            int virtAddr, length, cnt; // cnt la gia tri chieu dai that su
             char* buffer;
             char* cur; // gia tri de luu chuoi cuoi cung
+            cnt = 0;
             virtAddr = machine->ReadRegister(4); // Lay dia chi tham so buffer truyen vao tu thanh ghi so 4
             length = machine->ReadRegister(5); // Lay do dai toi da cua chuoi nhap vao tu thanh ghi so 5
             buffer = User2System(virtAddr, length); // Copy chuoi tu vung nho User Space sang System Space
