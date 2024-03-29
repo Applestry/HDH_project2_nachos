@@ -260,6 +260,7 @@ ExceptionHandler(ExceptionType which)
             }
             machine->WriteRegister(2, 0); //tra ve chuong trinh nguoi dung thanh cong
             delete filename;
+            interrupt->Halt();
             break;
         }
         case SC_PrintInt:
@@ -313,6 +314,7 @@ ExceptionHandler(ExceptionType which)
             gSynchConsole->Write(buffer, numberOfNum);
             delete buffer;
             //IncreasePC();
+            interrupt->Halt();
             break;
         }
         case SC_ReadString:
@@ -320,22 +322,29 @@ ExceptionHandler(ExceptionType which)
             //void ReadString (char[] buffer, int length)
             int virtAddr, length, cnt = 0; // cnt la gia tri chieu dai that su
             char* buffer;
+            char* cur; // gia tri de luu chuoi cuoi cung
             virtAddr = machine->ReadRegister(4); // Lay dia chi tham so buffer truyen vao tu thanh ghi so 4
             length = machine->ReadRegister(5); // Lay do dai toi da cua chuoi nhap vao tu thanh ghi so 5
             buffer = User2System(virtAddr, length); // Copy chuoi tu vung nho User Space sang System Space
+            gSynchConsole->Read(buffer, length);
+            cur = new char[length + 1]; 
             for (int i = 0; i < length; i++) // chi doc chieu dai < length theo yeu cau de
             {
-                gSynchConsole->Read(buffer[i], 1); // moi lan doc 1 byte de check xem nguoi dung co nhan enter hay khong
-                cnt++; // moi lan doc xong la se tang chieu dai that su vi co the trong chuoi co enter
                 if (buffer[i] == 13) // 13 la dau enter
                 {
-                    buffer[i] = '\0'; // gap enter la ket thuc
+                    cur[i] = '\0'; // ket thuc chuoi cur
+                   // gap enter la ket thuc
                     break;
                 }
+                cur[i] = buffer[i]; // moi lan doc 1 byte de check xem nguoi dung co nhan enter hay khong
+                cnt++; // moi lan doc xong la se tang chieu dai that su vi co the trong chuoi co enter
+               
             }
-            System2User(virtAddr, cnt, buffer); // Copy chuoi tu vung nho System Space sang vung nho User Space
+            System2User(virtAddr, cnt, cur); // Copy chuoi tu vung nho System Space sang vung nho User Space
             delete buffer;
+            delete[]cur;
             //ncreasePC(); //Program Counter 
+            interrupt->Halt();
             break;
         }
 
