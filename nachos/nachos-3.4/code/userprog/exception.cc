@@ -227,7 +227,7 @@ ExceptionHandler(ExceptionType which)
             break;
         case SC_CreateFile:
         {
-            int virtAddr;
+            int virtAddr, MaxFileLength;
             char* filename;
 
             DEBUG('a', "\n SC_CreateFile call ...");
