@@ -11,7 +11,7 @@ int main()
 		PrintString("Tao file thanh cong!\n");
 		id = Open(fileName, 0);
 	}
-	PrintString("Bang ma ASCII la: ");
+	PrintString("Bang ma ASCII la:\n");
 	
 	cnt = 0;
 	for (i = 32; i < 127; i++)
