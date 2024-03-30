@@ -14,7 +14,7 @@ int main()
 	PrintString("Bang ma ASCII la: ");
 	
 	cnt = 0;
-	for (i = 32; i <= 127; i++)
+	for (i = 32; i < 127; i++)
 	{
 		temp = i;
 		while (temp > 0)
