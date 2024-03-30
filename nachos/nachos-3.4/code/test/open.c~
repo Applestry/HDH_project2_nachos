@@ -1,16 +1,16 @@
 
 #include "syscall.h"
+#define MAX_LENGTH 255
 
 int main() {
-	int x;
+	int fileID;
 	int out;
 	int len;
 	char buffer[100];
-	x = Open("hello.txt", 1);
-	if (x != -1) {
-		PrintString("Mo file thanh cong\n");
-		len = Read(buffer, 100, x);
+	fileID = Open("hello.txt", 1);
 
+	if (fileID != -1) {
+		len = Read(buffer, MAX_LENGTH, fileID);
 		if (len != -1 && len != -2) //Kiem tra co bi loi, hay co EOF hay khong
 		{
 			out = Open("out", 3); // Goi ham Open voi type = 3 de su dung out
@@ -21,7 +21,7 @@ int main() {
 				Close(out); // Goi ham Close de dong out
 			}
 		}
-		Close(x);
+		Close(fileID);
 	}
 	Halt();
 	return 0;
