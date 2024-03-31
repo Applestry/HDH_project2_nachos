@@ -35,7 +35,7 @@ CPP = gcc -E
 INCDIR =-I../userprog -I../threads
 CFLAGS = -G 0 -c $(INCDIR)
 
-all: halt shell matmult sort sub int float char string createfile
+all: halt shell matmult sort sub int float char string createfile quicksort
 
 start.o: start.s ../userprog/syscall.h
 	$(CPP) $(CPPFLAGS) start.c > strt.s
@@ -101,3 +101,9 @@ createfile.o: createfile.c
 createfile: createfile.o start.o
 	$(LD) $(LDFLAGS) start.o createfile.o -o createfile.coff
 	../bin/coff2noff createfile.coff createfile
+
+quicksort.o: quicksort.c
+	$(CC) $(CFLAGS) -c quicksort.c
+quicksort: quicksort.o start.o
+	$(LD) $(LDFLAGS) start.o quicksort.o -o quicksort.coff
+	../bin/coff2noff quicksort.coff quicksort
